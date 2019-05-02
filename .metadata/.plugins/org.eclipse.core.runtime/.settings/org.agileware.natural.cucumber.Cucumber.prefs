@@ -1,0 +1,4 @@
+eclipse.preferences.version=1
+org.agileware.natural.cucumber.Cucumber.syntaxColorer.tokenStyles.default.color=128,255,255
+org.agileware.natural.cucumber.Cucumber.syntaxColorer.tokenStyles.keyword.color=128,255,128
+org.agileware.natural.cucumber.Cucumber.syntaxColorer.tokenStyles.stepCondition.color=255,128,192
