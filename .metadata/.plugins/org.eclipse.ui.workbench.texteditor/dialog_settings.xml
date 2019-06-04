@@ -6,10 +6,11 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="maven" key="selection"/>
+		<item value="extent" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="extent"/>
 			<item value="maven"/>
 		</list>
 		<list key="replacehistory">
