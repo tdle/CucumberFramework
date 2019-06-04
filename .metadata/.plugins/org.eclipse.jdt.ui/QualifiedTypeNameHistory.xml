@@ -40,8 +40,19 @@
 <fullyQualifiedTypeName name="utils.DriverFactory"/>
 <fullyQualifiedTypeName name="pageObjects.BasePage"/>
 <fullyQualifiedTypeName name="cucumber.api.Scenario"/>
-<fullyQualifiedTypeName name="org.openqa.selenium.TakesScreenshot"/>
-<fullyQualifiedTypeName name="org.openqa.selenium.OutputType"/>
 <fullyQualifiedTypeName name="java.util.Properties"/>
+<fullyQualifiedTypeName name="java.sql.Date"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="org.openqa.selenium.OutputType"/>
+<fullyQualifiedTypeName name="org.openqa.selenium.TakesScreenshot"/>
+<fullyQualifiedTypeName name="org.apache.commons.io.FileUtils"/>
+<fullyQualifiedTypeName name="gherkin.formatter.Reporter"/>
+<fullyQualifiedTypeName name="com.cucumber.listener.Reporter"/>
+<fullyQualifiedTypeName name="org.junit.AfterClass"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="org.testng.annotations.AfterClass"/>
+<fullyQualifiedTypeName name="gherkin.deps.net.iharder.Base64.InputStream"/>
+<fullyQualifiedTypeName name="java.io.OutputStream"/>
 <fullyQualifiedTypeName name="java.io.FileInputStream"/>
+<fullyQualifiedTypeName name="java.io.FileOutputStream"/>
 </qualifiedTypeNameHistroy>

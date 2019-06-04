@@ -1,15 +1,24 @@
 package pageObjects;
 
 import java.awt.AWTException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Date;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -17,25 +26,24 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
+import com.cucumber.listener.Reporter;
 import utils.DriverFactory;
 
 public class BasePage extends DriverFactory {
 	protected WebDriverWait wait;
 	protected JavascriptExecutor jsExecutor;
+	private static String screenshotName;
 
 	public BasePage() throws IOException {
 		this.wait = new WebDriverWait(driver, 15);
 		jsExecutor = ((JavascriptExecutor) driver);
 	}
-	
-	 /*
-	 ***********************************************************************************
+
+	/**********************************************************************************
 	 **CLICK METHODS
-	 *********************************************************************************
-	 **/
-	
-	public void waitAndClickElement(WebElement element) throws InterruptedException {
+	 * @throws IOException 
+	 **********************************************************************************/
+	public void waitAndClickElement(WebElement element) throws InterruptedException, IOException {
 		boolean clicked = false;
 		int attempts = 0;
 		while (!clicked && attempts < 10) {
@@ -49,14 +57,6 @@ public class BasePage extends DriverFactory {
 			}
 			attempts++;
 		}
-		
-		/*
-		 * boolean clicked set to false
-		 * int is an integer which means attempts is set to 0
-		 * while statement, which checks whether clicked & attempts is less than 10
-		 * If the element is clicked, it will print out element clicked
-		 * if it surpasses 10 attempts to click, then it will print out an assert fail message
-		 */
 	}
 
 	public void waitAndClickElementsUsingByLocator(By by) throws InterruptedException {
@@ -73,13 +73,6 @@ public class BasePage extends DriverFactory {
 			}
 			attempts++;
 		}
-		
-		/*
-		 * boolean is clicked set to false
-		 * int is an integer which means attempts is set to 0
-		 * while statement, checks whether clicked & Attempts is less than 10
-		 * This methods checks whether an element has been clicked using the By locator
-		 */
 	}
 
 	public void clickOnTextFromDropdownList(WebElement list, String textToSearchFor) throws Exception {
@@ -108,11 +101,13 @@ public class BasePage extends DriverFactory {
 		}
 	}
 	
-	 /*
-	 *********************************************************************************
-	 ACTION METHODS
-	 *********************************************************************************
-	 **/
+	/**********************************************************************************/
+	/**********************************************************************************/
+	
+	
+	 /**********************************************************************************
+	 **ACTION METHODS
+	 **********************************************************************************/
 
 	public void actionMoveAndClick(WebElement element) throws Exception {
 		Actions ob = new Actions(driver);
@@ -151,12 +146,14 @@ public class BasePage extends DriverFactory {
 			Assert.fail("Unable to Action Move and Click on the WebElement using by locator, Exception: " + e.getMessage());
 		}
 	}
+
+	/**********************************************************************************/
+	/**********************************************************************************/
+
 	
-	 /*
-	 *********************************************************************************
-	 SEND KEYS METHODS
-	 ********************************************************************************
-	 **/
+	/**********************************************************************************
+	 **SEND KEYS METHODS /
+	 **********************************************************************************/
 	public void sendKeysToWebElement(WebElement element, String textToSend) throws Exception {
 		try {
 			this.WaitUntilWebElementIsVisible(element);
@@ -168,13 +165,14 @@ public class BasePage extends DriverFactory {
 			Assert.fail("Unable to send keys to WebElement, Exception: " + e.getMessage());
 		}
 	}
+
+	/**********************************************************************************/
+	/**********************************************************************************/
+
 	
-	 /*
-	 *********************************************************************************
-	 JS METHODS & JS SCROLL
-	 ********************************************************************************
-	 ***/
-	
+	/**********************************************************************************
+	 **JS METHODS & JS SCROLL
+	 **********************************************************************************/
 	public void scrollToElementByWebElementLocator(WebElement element) {
 		try {
 			this.wait.until(ExpectedConditions.visibilityOf(element)).isEnabled();
@@ -222,12 +220,13 @@ public class BasePage extends DriverFactory {
 		js.executeScript("arguments[0].click();", element);
 	}
 
-	 /*
-	 *********************************************************************************
-	 WAIT METHODS
-	 ********************************************************************************
-	 ***/
+	/**********************************************************************************/
+	/**********************************************************************************/
+
 	
+	/**********************************************************************************
+	 **WAIT METHODS
+	 **********************************************************************************/
 	public boolean WaitUntilWebElementIsVisible(WebElement element) {
 		try {
 			this.wait.until(ExpectedConditions.visibilityOf(element));
@@ -267,13 +266,14 @@ public class BasePage extends DriverFactory {
 	public boolean waitUntilPreLoadElementDissapears(By element) {
 		return this.wait.until(ExpectedConditions.invisibilityOfElementLocated(element));
 	}
+
+	/**********************************************************************************/
+	/**********************************************************************************/
+
 	
-	 /*
-	 **********************************************************************************
+	/**********************************************************************************
 	 **PAGE METHODS
-	 *********************************************************************************
-	 **/
-	
+	 **********************************************************************************/
 	public BasePage loadUrl(String url) throws Exception {
 		driver.get(url);
 		return new BasePage();
@@ -302,13 +302,14 @@ public class BasePage extends DriverFactory {
 			return e.getMessage();
 		}
 	}
-
-	 /*
-	 **********************************************************************************
-	 ALERT & POPUPS METHODS
-	 ********************************************************************************
-	 ***/
 	
+	/**********************************************************************************/
+	/**********************************************************************************/
+
+	
+	/**********************************************************************************
+	 **ALERT & POPUPS METHODS
+	 **********************************************************************************/
 	public void closePopups(By locator) throws InterruptedException {
 		try {
 			List<WebElement> elements = this.wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
@@ -357,5 +358,58 @@ public class BasePage extends DriverFactory {
 			System.out.println("Unable to close the popup");
 			Assert.fail("Unable to close the popup, Exception: " + e.getMessage());
 		}
+	}
+	/**********************************************************************************/
+	/**********************************************************************************/
+	
+	/***EXTENT REPORT****************************************************************/
+	public static String returnDateStamp(String fileExtension) {
+		Date d = new Date();
+		String date = d.toString().replace(":", "_").replace(" ", "_") + fileExtension;
+		return date;
+	}
+	
+	public static void captureScreenshot() throws IOException, InterruptedException {
+		File srcFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+		
+		screenshotName = returnDateStamp(".jpg");
+	
+		FileUtils.copyFile(srcFile, new File(System.getProperty("user.dir") + "\\output\\imgs\\" + screenshotName));
+		
+		Reporter.addStepLog("Taking a screenshot!");
+		Reporter.addStepLog("<br>");
+		Reporter.addStepLog("<a target=\"_blank\", href="+ returnScreenshotName() + "><img src="+ returnScreenshotName()+ " height=200 width=300></img></a>");
+	}
+	
+	public static String returnScreenshotName() {
+		return (System.getProperty("user.dir") + "\\output\\imgs\\" + screenshotName).toString();
+	}
+	
+	private static void copyFileUsingStream(File source, File dest) throws IOException {
+		InputStream is = null;
+		OutputStream os = null;
+		
+		try {
+			is = new FileInputStream(source);
+			os = new FileOutputStream(dest);
+			byte[] buffer = new byte[1024];
+			int length;
+			
+			while((length = is.read(buffer)) > 0) {
+				os.write(buffer, 0, length);
+			}
+			
+		} finally {
+			is.close();
+			os.close();
+		}
+	}
+	
+	public static void copyLatestExtentReport() throws IOException {
+		Date d = new Date();
+		String date = d.toString().replace(":", "_").replace(" ", "_");
+		File source = new File(System.getProperty("user.dir") + "\\output\\report.html");
+		File dest = new File(System.getProperty("user.dir") + "\\output\\" + date.toString() + ".html");
+		copyFileUsingStream(source, dest);
 	}
 }
