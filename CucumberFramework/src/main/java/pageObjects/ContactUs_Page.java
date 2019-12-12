@@ -17,7 +17,6 @@ public class ContactUs_Page extends BasePage {
 	public @FindBy(xpath = "//textarea[@name='message']") WebElement textField_Message;
 	public @FindBy(xpath = "//input[@value='SUBMIT']") WebElement button_Submit;
 	
-
 	
 	public ContactUs_Page() throws IOException {
 		super();

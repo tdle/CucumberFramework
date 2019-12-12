@@ -9,7 +9,7 @@ Scenario Outline: Login to account with credentials
 	And User clicks on the login button
 	Then user should be presented with validation "<message>"
 		
-	Examples:
+	Examples: Test Data
 	|			          url		  	   | username | password   | 	  message      |
 	|	http://www.webdriveruniversity.com | tdle     | testuser1  | validation failed |
 	
